@@ -8,7 +8,7 @@ import de.uni_hamburg.informatik.swt.se2.mediathek.fachwerte.PLZ;
  * Jeder Kunde hat mindestens einen Vornamen, einen Nachnamen und eine
  * Kundennummer.
  * 
- * @author SE2-Team
+ * @author SE2-Team git
  * @version SoSe 2015
  */
 public class Kunde
