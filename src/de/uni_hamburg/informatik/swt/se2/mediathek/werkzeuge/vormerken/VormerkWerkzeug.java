@@ -215,6 +215,7 @@ public class VormerkWerkzeug
 
         for (Medium medium : medien)
         {
+            if (_verleihService.istVerliehenAn(kunde, medium)) return false;
             if (_verleihService.getVormerkungskarte(medium) != null)
             {
                 if (_verleihService.getVormerkungskarte(medium)
