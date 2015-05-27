@@ -328,7 +328,7 @@ public class VerleihServiceImpl extends AbstractObservableService implements
         assert vormerker != null : "vormerker = null";
         assert medium != null : "Medium = null";
 
-        if (_vormerkungskarten.containsKey(medium))
+        if (!_vormerkungskarten.containsKey(medium))
             _vormerkungskarten.put(medium, new Vormerkungskarte(medium,
                     vormerker));
         else
@@ -345,7 +345,7 @@ public class VerleihServiceImpl extends AbstractObservableService implements
      */
     private boolean istVorgemerkt(Medium medium)
     {
-        return !_vormerkungskarten.containsKey(medium);
+        return _vormerkungskarten.containsKey(medium);
     }
 
     @Override
