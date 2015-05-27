@@ -28,20 +28,20 @@ public class VormerkungskarteTest
     }
 
     @Test
-    public void testegetFormatiertenString() throws Exception
+    public void test_getFormatiertenString() throws Exception
     {
         assertNotNull(_karte.getFormatiertenString());
     }
 
     @Test
-    public void testeKonstruktor() throws Exception
+    public void test_Konstruktor() throws Exception
     {
         assertEquals(_kunde, _karte.getVormerker(0));
         assertEquals(_medium, _karte.getMedium());
     }
 
     @Test
-    public void testEquals()
+    public void test_equals()
     {
         Kunde kunde1 = new Kunde(new Kundennummer(123457), "lolol", "troll");
         Vormerkungskarte karte1 = new Vormerkungskarte(_medium, kunde1);

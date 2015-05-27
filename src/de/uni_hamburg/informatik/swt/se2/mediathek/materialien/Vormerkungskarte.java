@@ -161,14 +161,13 @@ public class Vormerkungskarte
         {
             Vormerkungskarte other = (Vormerkungskarte) obj;
 
-            if (other.getMedium()
+            if (!other.getMedium()
                 .equals(_medium)) return false;
             for (int i = 0; i < VORMERKERZAHL; ++i)
             {
-                if (other.getVormerker(i)
+                if (!other.getVormerker(i)
                     .equals(this.getVormerker(i))) return false;
             }
-
             return true;
         }
         else
