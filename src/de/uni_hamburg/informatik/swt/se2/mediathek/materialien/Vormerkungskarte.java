@@ -124,17 +124,14 @@ public class Vormerkungskarte
      */
     public String getFormatiertenString()
     {
-        return _medium.getFormatiertenString()
-                + "vorgemerkt von:\n"
-                + ((getVormerker(0) == null) ? " "
-                        : getVormerker(0).getFormatiertenString())
-                + "\n"
-                + ((getVormerker(1) == null) ? " "
-                        : getVormerker(1).getFormatiertenString())
-                + "\n"
-                + ((getVormerker(2) == null) ? " "
-                        : getVormerker(2).getFormatiertenString());
-
+        String formatstr = _medium.getFormatiertenString();
+        for (int i = 0; this.getVormerker(i) != null; ++i)
+        {
+            formatstr = formatstr + "vorgemerkt von:" + "\n"
+                    + this.getVormerker(0)
+                        .getFormatiertenString();
+        }
+        return formatstr;
     }
 
     @Override
