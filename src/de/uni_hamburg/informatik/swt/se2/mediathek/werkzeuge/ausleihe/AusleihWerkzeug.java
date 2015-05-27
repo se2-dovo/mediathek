@@ -221,7 +221,7 @@ public class AusleihWerkzeug
             if (_verleihService.getVormerkungskarte(medium) != null)
             {
                 if (!_verleihService.getVormerkungskarte(medium)
-                    .getVormerker1()
+                    .getVormerker(0)
                     .equals(kunde)) return false;
             }
         }

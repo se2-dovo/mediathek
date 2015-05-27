@@ -205,8 +205,12 @@ public class VerleihServiceImpl extends AbstractObservableService implements
             {
                 if (istVormerker(kunde, medium))
                 {
-                    _vormerkungskarten.get(medium)
-                        .rueckeAuf();
+                    if (_vormerkungskarten.get(medium)
+                        .rueckeAuf())
+                    {
+                        _vormerkungskarten.remove(medium);
+                    }
+
                     verleihe(medium, kunde, ausleihDatum);
                 }
             }
@@ -318,7 +322,7 @@ public class VerleihServiceImpl extends AbstractObservableService implements
      * @param medium
      */
     @Override
-    public void vormerken(Kunde vormerker, Medium medium)
+    public void merkeVor(Kunde vormerker, Medium medium)
     {
         assert vormerker != null : "vormerker = null";
         assert medium != null : "Medium = null";
@@ -326,8 +330,8 @@ public class VerleihServiceImpl extends AbstractObservableService implements
         Vormerkungskarte vormerkungskarte;
         if (_vormerkungskarten.get(medium) == null)
         {
-            vormerkungskarte = new Vormerkungskarte(medium, vormerker);
-            _vormerkungskarten.put(medium, vormerkungskarte);
+            _vormerkungskarten.put(medium, new Vormerkungskarte(medium,
+                    vormerker));
         }
         else
         {
@@ -339,16 +343,14 @@ public class VerleihServiceImpl extends AbstractObservableService implements
 
     private boolean istVorgemerkt(Medium medium)
     {
-        Vormerkungskarte karte;
-        karte = _vormerkungskarten.get(medium);
-        return !(karte == null);
+        return !(_vormerkungskarten.get(medium) == null);
     }
 
     @Override
     public boolean istVormerker(Kunde kunde, Medium medium)
     {
         return _vormerkungskarten.get(medium)
-            .getVormerker1()
+            .getVormerker(0)
             .equals(kunde);
     }
 

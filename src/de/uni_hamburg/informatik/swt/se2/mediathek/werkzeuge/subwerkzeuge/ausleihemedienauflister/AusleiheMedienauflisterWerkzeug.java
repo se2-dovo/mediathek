@@ -90,7 +90,7 @@ public class AusleiheMedienauflisterWerkzeug extends ObservableSubWerkzeug
             if (_verleihService.getVormerkungskarte(medium) != null)
             {
                 ersterVormerker = _verleihService.getVormerkungskarte(medium)
-                    .getVormerker1();
+                    .getVormerker(0);
             }
 
             medienFormatierer.add(new AusleiheMedienFormatierer(medium,

@@ -36,7 +36,7 @@ public class VormerkungskarteTest
     @Test
     public void testeKonstruktor() throws Exception
     {
-        assertEquals(_kunde, _karte.getVormerker1());
+        assertEquals(_kunde, _karte.getVormerker(0));
         assertEquals(_medium, _karte.getMedium());
     }
 
@@ -59,16 +59,16 @@ public class VormerkungskarteTest
         assertFalse(_karte.equals(karte2));
         assertNotSame(_karte.hashCode(), karte2.hashCode());
 
-        assertEquals(kunde2, karte2.getVormerker1());
+        assertEquals(kunde2, karte2.getVormerker(0));
 
         karte1.addVormerker(kunde1);
-        assertFalse(karte1.getVormerker2() != null);
+        assertFalse(karte1.getVormerker(1) != null);
 
         karte1.addVormerker(kunde3);
-        assertEquals(kunde3, karte1.getVormerker2());
+        assertEquals(kunde3, karte1.getVormerker(1));
 
         karte1.rueckeAuf();
-        assertEquals(kunde3, karte1.getVormerker1());
+        assertEquals(kunde3, karte1.getVormerker(0));
 
         assertTrue(karte1.istKundeVormerker(kunde3));
 

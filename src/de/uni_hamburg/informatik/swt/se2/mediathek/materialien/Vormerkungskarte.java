@@ -77,54 +77,11 @@ public class Vormerkungskarte
      * @ensure result != null
      */
 
-    public Kunde getVormerker1()
+    public Kunde getVormerker(int index)
     {
-        //TODO
         try
         {
-            return _vormerker.get(0);
-        }
-        catch (IndexOutOfBoundsException e)
-        {
-            return null;
-        }
-    }
-
-    /**
-     * Gibt den Vormerker zurück.
-     * 
-     * @return den Kunden, der das Medium vorgemerkt hat.
-     * 
-     * @ensure result != null
-     */
-
-    public Kunde getVormerker2()
-    {
-        //TODO
-        try
-        {
-            return _vormerker.get(1);
-        }
-        catch (IndexOutOfBoundsException e)
-        {
-            return null;
-        }
-    }
-
-    /**
-     * Gibt den Vormerker zurück.
-     * 
-     * @return den Kunden, der das Medium vorgemerkt hat.
-     * 
-     * @ensure result != null
-     */
-
-    public Kunde getVormerker3()
-    {
-        //TODO
-        try
-        {
-            return _vormerker.get(2);
+            return _vormerker.get(index);
         }
         catch (IndexOutOfBoundsException e)
         {
@@ -175,14 +132,14 @@ public class Vormerkungskarte
 
         return _medium.getFormatiertenString()
                 + "vorgemerkt von:\n"
-                + ((getVormerker1() == null) ? " "
-                        : getVormerker1().getFormatiertenString())
+                + ((getVormerker(0) == null) ? " "
+                        : getVormerker(0).getFormatiertenString())
                 + "\n"
-                + ((getVormerker2() == null) ? " "
-                        : getVormerker2().getFormatiertenString())
+                + ((getVormerker(1) == null) ? " "
+                        : getVormerker(1).getFormatiertenString())
                 + "\n"
-                + ((getVormerker3() == null) ? " "
-                        : getVormerker3().getFormatiertenString());
+                + ((getVormerker(2) == null) ? " "
+                        : getVormerker(2).getFormatiertenString());
 
     }
 
@@ -192,11 +149,11 @@ public class Vormerkungskarte
         final int prime = 31;
         int result = 1;
         result = prime * result
-                + ((getVormerker1() == null) ? 0 : getVormerker1().hashCode());
+                + ((getVormerker(0) == null) ? 0 : getVormerker(0).hashCode());
         result = prime * result
-                + ((getVormerker2() == null) ? 0 : getVormerker2().hashCode());
+                + ((getVormerker(1) == null) ? 0 : getVormerker(1).hashCode());
         result = prime * result
-                + ((getVormerker3() == null) ? 0 : getVormerker3().hashCode());
+                + ((getVormerker(2) == null) ? 0 : getVormerker(2).hashCode());
 
         result = prime * result + ((_medium == null) ? 0 : _medium.hashCode());
         return result;
@@ -210,25 +167,25 @@ public class Vormerkungskarte
         {
             Vormerkungskarte other = (Vormerkungskarte) obj;
 
-            if (getVormerker2() == null && getVormerker3() == null)
+            if (getVormerker(1) == null && getVormerker(2) == null)
             {
-                if (other.getVormerker1()
-                    .equals(getVormerker1()) && other.getMedium()
+                if (other.getVormerker(0)
+                    .equals(getVormerker(0)) && other.getMedium()
                     .equals(_medium)) result = true;
             }
-            else if (getVormerker3() == null)
+            else if (getVormerker(2) == null)
             {
-                if (other.getVormerker1()
-                    .equals(getVormerker1()) && other.getVormerker2()
-                    .equals(getVormerker2()) && other.getMedium()
+                if (other.getVormerker(0)
+                    .equals(getVormerker(0)) && other.getVormerker(1)
+                    .equals(getVormerker(1)) && other.getMedium()
                     .equals(_medium)) result = true;
             }
             else
             {
-                if (other.getVormerker1()
-                    .equals(getVormerker1()) && other.getVormerker2()
-                    .equals(getVormerker2()) && other.getVormerker3()
-                    .equals(getVormerker3()) && other.getMedium()
+                if (other.getVormerker(0)
+                    .equals(getVormerker(0)) && other.getVormerker(1)
+                    .equals(getVormerker(1)) && other.getVormerker(2)
+                    .equals(getVormerker(2)) && other.getMedium()
                     .equals(_medium)) result = true;
             }
         }
@@ -242,10 +199,11 @@ public class Vormerkungskarte
     }
 
     /**
-     * Rückt Vormerker und Löscht vormerker 1
+     * Rückt alle Vormerker auf
      */
-    public void rueckeAuf()
+    public boolean rueckeAuf()
     {
         _vormerker.poll();
+        return _vormerker.isEmpty();
     }
 }

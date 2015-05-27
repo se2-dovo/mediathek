@@ -153,17 +153,17 @@ public class VerleihServiceImplTest
     public void testVormerkunngsvorgang()
     {
         Medium medium = new CD("CD1", "baz", "foo", 123);
-        _service.vormerken(_vormerkkunde, medium);
-        _service.vormerken(_vormerkkunde, medium);
-        _service.vormerken(_vormerkkunde, medium);
+        _service.merkeVor(_vormerkkunde, medium);
+        _service.merkeVor(_vormerkkunde, medium);
+        _service.merkeVor(_vormerkkunde, medium);
         assertEquals(medium, _service.getVormerkungskarte(medium)
             .getMedium());
         assertEquals(_service.getVormerkungskarte(medium)
-            .getVormerker1(), _service.getVormerkungskarte(medium)
-            .getVormerker2());
+            .getVormerker(0), _service.getVormerkungskarte(medium)
+            .getVormerker(1));
 
         assertTrue(_service.istVormerker(_service.getVormerkungskarte(medium)
-            .getVormerker1(), medium));
+            .getVormerker(0), medium));
 
     }
 }

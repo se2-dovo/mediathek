@@ -229,7 +229,7 @@ public interface VerleihService extends ObservableService
      */
     Verleihkarte getVerleihkarteFuer(Medium medium);
 
-    public void vormerken(Kunde vormerker, Medium medium);
+    public void merkeVor(Kunde vormerker, Medium medium);
 
     public boolean istVormerker(Kunde kunde, Medium medium);
 

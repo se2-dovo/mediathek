@@ -244,7 +244,7 @@ public class VormerkWerkzeug
         // TODO für Aufgabenblatt 6 (nicht löschen): Vormerken einbauen
         for (Medium medium : selectedMedien)
         {
-            _verleihService.vormerken(selectedKunde, medium);
+            _verleihService.merkeVor(selectedKunde, medium);
         }
 
     }
