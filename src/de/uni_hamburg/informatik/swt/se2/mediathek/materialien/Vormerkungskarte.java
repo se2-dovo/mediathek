@@ -53,6 +53,7 @@ public class Vormerkungskarte
     public void addVormerker(Kunde vormerker)
     {
         assert vormerker != null : "Vorbedingung verletzt: vormerker != null";
+
         if (vormerkerFrei() && !_vormerker.contains(vormerker))
             _vormerker.add(vormerker);
     }
@@ -82,10 +83,14 @@ public class Vormerkungskarte
      * 
      * @return den Kunden, der das Medium vorgemerkt hat.
      * 
-     * @ensure result != null
+     * @require index zwischen 0 & VORMERKERZAHL - 1
+     * @ensure result == null || result Kunde, der das Medium vorgemerkt hat.
      */
     public Kunde getVormerker(int index)
     {
+        assert index >= 0 && index < VORMERKERZAHL : "precondition violated";
+
+        //TODO unschön
         try
         {
             return _vormerker.get(index);
@@ -136,49 +141,38 @@ public class Vormerkungskarte
     public int hashCode()
     {
         final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((getVormerker(0) == null) ? 0 : getVormerker(0).hashCode());
+        int result;
+
+        result = prime + getVormerker(0).hashCode();
+
         result = prime * result
                 + ((getVormerker(1) == null) ? 0 : getVormerker(1).hashCode());
+
         result = prime * result
                 + ((getVormerker(2) == null) ? 0 : getVormerker(2).hashCode());
 
-        result = prime * result + ((_medium == null) ? 0 : _medium.hashCode());
-        return result;
+        return prime * result + _medium.hashCode();
     }
 
     @Override
     public boolean equals(Object obj)
     {
-        boolean result = false;
         if (obj instanceof Vormerkungskarte)
         {
             Vormerkungskarte other = (Vormerkungskarte) obj;
 
-            if (getVormerker(1) == null && getVormerker(2) == null)
+            if (other.getMedium()
+                .equals(_medium)) return false;
+            for (int i = 0; i < VORMERKERZAHL; ++i)
             {
-                if (other.getVormerker(0)
-                    .equals(getVormerker(0)) && other.getMedium()
-                    .equals(_medium)) result = true;
+                if (other.getVormerker(i)
+                    .equals(this.getVormerker(i))) return false;
             }
-            else if (getVormerker(2) == null)
-            {
-                if (other.getVormerker(0)
-                    .equals(getVormerker(0)) && other.getVormerker(1)
-                    .equals(getVormerker(1)) && other.getMedium()
-                    .equals(_medium)) result = true;
-            }
-            else
-            {
-                if (other.getVormerker(0)
-                    .equals(getVormerker(0)) && other.getVormerker(1)
-                    .equals(getVormerker(1)) && other.getVormerker(2)
-                    .equals(getVormerker(2)) && other.getMedium()
-                    .equals(_medium)) result = true;
-            }
+
+            return true;
         }
-        return result;
+        else
+            return false;
     }
 
     @Override
