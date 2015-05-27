@@ -38,22 +38,30 @@ public class Vormerkungskarte
     {
         assert medium != null : "Vorbedingung verletzt: medium != null";
         assert vormerker != null : "Vorbedingung verletzt: vormerker != null";
+
         _medium = medium;
         _vormerker = new LinkedList<Kunde>();
         _vormerker.add(vormerker);
     }
 
     /**
-     * Fügt einen Vormerker zu dieser Karte hinzu
+     * Fügt einen Vormerker zu dieser Karte hinzu, sofern dieser noch nicht vorhanden ist.
      * 
      * @param vormerker
+     * @require vormerker != null
      */
     public void addVormerker(Kunde vormerker)
     {
+        assert vormerker != null : "Vorbedingung verletzt: vormerker != null";
         if (vormerkerFrei() && !_vormerker.contains(vormerker))
             _vormerker.add(vormerker);
     }
 
+    /**
+     * Prüfe ob der Kunde als Vormerker gelistet ist
+     * @param kunde 
+     * @return Ist Kunde gelistet oder nicht.
+     */
     public boolean istKundeVormerker(Kunde kunde)
     {
         return _vormerker.contains(kunde);
@@ -76,7 +84,6 @@ public class Vormerkungskarte
      * 
      * @ensure result != null
      */
-
     public Kunde getVormerker(int index)
     {
         try
@@ -90,13 +97,12 @@ public class Vormerkungskarte
     }
 
     /**
-     * Gibt das Medium zurück.
+     * Gibt das Medium der Vormerkungskarte zurück.
      * 
-     * @return das Medium.
+     * @return Medium
      * 
      * @ensure result != null
      */
-
     public Medium getMedium()
     {
         return _medium;
@@ -113,23 +119,6 @@ public class Vormerkungskarte
      */
     public String getFormatiertenString()
     {
-        /* if (_vormerker2 == null && _vormerker3 == null)
-         {
-             return _medium.getFormatiertenString() + "vorgemerkt von:\n"
-                     + _vormerker1.getFormatiertenString();
-         }
-         else if (_vormerker3 == null)
-         {
-             return _medium.getFormatiertenString() + "vorgemerkt von:\n"
-                     + _vormerker1.getFormatiertenString() + "\n"
-                     + _vormerker2.getFormatiertenString();
-         }
-         else
-             return _medium.getFormatiertenString() + "vorgemerkt von:\n"
-                     + _vormerker1.getFormatiertenString() + "\n"
-                     + _vormerker2.getFormatiertenString() + "\n"
-                     + _vormerker3.getFormatiertenString();*/
-
         return _medium.getFormatiertenString()
                 + "vorgemerkt von:\n"
                 + ((getVormerker(0) == null) ? " "
@@ -200,6 +189,9 @@ public class Vormerkungskarte
 
     /**
      * Rückt alle Vormerker auf
+     * 
+     * @return True wenn die V.Karte entfernt werden kann (/muss)
+     * @ensure result = True || False
      */
     public boolean rueckeAuf()
     {

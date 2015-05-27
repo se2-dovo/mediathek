@@ -224,6 +224,20 @@ public class VerleihServiceImpl extends AbstractObservableService implements
         informiereUeberAenderung();
     }
 
+    /**
+     * Hilfsmethode zum Verleihen von Medien an Kunden
+     * 
+     * @param medium - Das zu verleihende Medium
+     * @param kunde - Der leihende Kunde
+     * @param ausleihDatum - ...
+     * @throws ProtokollierException
+     * 
+     * @require medium != null
+     * @require medium ist nicht verliehen (und nicht oder für Kunde Vorgemerkt)
+     * @require kunde != null
+     * @require ausleihDatum != null
+     * 
+     */
     private void verleihe(Medium medium, Kunde kunde, Datum ausleihDatum)
             throws ProtokollierException
     {
@@ -314,12 +328,15 @@ public class VerleihServiceImpl extends AbstractObservableService implements
     }
 
     /**
-     * Stellt eine Vormerkungskarte falss keiner existiert.
+     * Merkt ein Medium vor.
+     * Sofern keine Vormerker vorhanden sind, wird eine Vormerkungskarte erstellt.
      * 
-     * @require medium!=null
-     * @require vormerker!=null
-     * @param vormerker
-     * @param medium
+     * @param vormerker Vormerkender Kunde
+     * @param medium vorzumerkendes Medium
+     * 
+     * @require medium != null
+     * @require vormerker != null
+     * @require Vormerken ist möglich (nicht mehr als 2 Vormerker)
      */
     @Override
     public void merkeVor(Kunde vormerker, Medium medium)
@@ -327,23 +344,28 @@ public class VerleihServiceImpl extends AbstractObservableService implements
         assert vormerker != null : "vormerker = null";
         assert medium != null : "Medium = null";
 
-        Vormerkungskarte vormerkungskarte;
-        if (_vormerkungskarten.get(medium) == null)
+        if (_vormerkungskarten.containsKey(medium))
         {
             _vormerkungskarten.put(medium, new Vormerkungskarte(medium,
                     vormerker));
         }
         else
         {
-            vormerkungskarte = _vormerkungskarten.get(medium);
-            vormerkungskarte.addVormerker(vormerker);
+            _vormerkungskarten.get(medium)
+                .addVormerker(vormerker);
         }
+
         informiereUeberAenderung();
     }
 
+    /**
+     * Prüfe, ob für gegebenes Medium vorgemerkt wurde
+     * @param medium - Das Medium
+     * @return ist vorgemerkt?
+     */
     private boolean istVorgemerkt(Medium medium)
     {
-        return !(_vormerkungskarten.get(medium) == null);
+        return !_vormerkungskarten.containsKey(medium);
     }
 
     @Override
