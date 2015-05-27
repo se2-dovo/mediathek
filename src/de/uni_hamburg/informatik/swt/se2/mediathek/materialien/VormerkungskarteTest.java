@@ -2,8 +2,6 @@ package de.uni_hamburg.informatik.swt.se2.mediathek.materialien;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -15,67 +13,69 @@ import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.medien.Medium;
 public class VormerkungskarteTest
 {
     private Vormerkungskarte _karte;
-    private Kunde _kunde;
-    private Medium _medium;
+    private Kunde _kunde1;
+    private Kunde _kunde2;
+    private Medium _medium1;
+    private Medium _medium2;
 
     public VormerkungskarteTest()
     {
-        _kunde = new Kunde(new Kundennummer(123456), "ich", "du");
-
-        _medium = new CD("bar", "baz", "foo", 123);
-        _karte = new Vormerkungskarte(_medium, _kunde);
-
-    }
-
-    @Test
-    public void test_getFormatiertenString() throws Exception
-    {
-        assertNotNull(_karte.getFormatiertenString());
+        _kunde1 = new Kunde(new Kundennummer(123456), "ich", "du");
+        _kunde2 = new Kunde(new Kundennummer(654321), "er", "sie");
+        _medium1 = new CD("bar", "baz", "foo", 123);
+        _medium2 = new CD("rab", "zab", "oof", 321);
     }
 
     @Test
     public void test_Konstruktor() throws Exception
     {
-        assertEquals(_kunde, _karte.getVormerker(0));
-        assertEquals(_medium, _karte.getMedium());
+        _karte = new Vormerkungskarte(_medium1, _kunde1);
+        assertEquals(_kunde1, _karte.getVormerker(0));
+        assertEquals(_medium1, _karte.getMedium());
+    }
+
+    @Test
+    public void test_getFormatiertenString() throws Exception
+    {
+        _karte = new Vormerkungskarte(_medium1, _kunde1);
+
+        String string = "CD:" + "\n" + "    Titel: bar" + "\n"
+                + "    Kommentar: baz" + "\n" + "    Interpret: foo" + "\n"
+                + "    Spiellänge: 123" + "\n" + "vorgemerkt von:" + "\n"
+                + "    Kundennummer: 123456" + "\n" + "    Name: ich du" + "\n"
+                + "    Telefon: unbekannt" + "\n" + "    Anschrift:" + "\n"
+                + "    unbekannt";
+        assertTrue(_karte.getFormatiertenString()
+            .contains(string));
+
     }
 
     @Test
     public void test_equals()
     {
-        Kunde kunde1 = new Kunde(new Kundennummer(123457), "lolol", "troll");
-        Vormerkungskarte karte1 = new Vormerkungskarte(_medium, kunde1);
-
-        Vormerkungskarte temp = new Vormerkungskarte(_medium, _kunde);
-
+        _karte = new Vormerkungskarte(_medium1, _kunde1);
+        Vormerkungskarte temp = new Vormerkungskarte(_medium1, _kunde1);
         assertTrue(_karte.equals(temp));
-        assertEquals(_karte.hashCode(), temp.hashCode());
+        assertEquals(temp.hashCode(), _karte.hashCode());
 
-        Kunde kunde3 = new Kunde(new Kundennummer(754321), "op", "du");
-        Kunde kunde2 = new Kunde(new Kundennummer(654321), "ich", "du");
-        CD medium2 = new CD("hallo", "welt", "foo", 321);
-        Vormerkungskarte karte2 = new Vormerkungskarte(medium2, kunde2);
+        temp.addVormerker(_kunde2);
+        assertFalse(_karte.equals(temp));
+        assertFalse(temp.hashCode() == _karte.hashCode());
 
-        assertFalse(_karte.equals(karte2));
-        assertNotSame(_karte.hashCode(), karte2.hashCode());
+        _karte = new Vormerkungskarte(_medium1, _kunde2);
+        _karte.addVormerker(_kunde1);
+        assertFalse(_karte.equals(temp));
+        assertFalse(temp.hashCode() == _karte.hashCode());
 
-        assertEquals(kunde2, karte2.getVormerker(0));
+        temp = new Vormerkungskarte(_medium1, _kunde1);
+        _karte.rueckeAuf();
+        assertTrue(_karte.equals(temp));
+        assertTrue(temp.hashCode() == _karte.hashCode());
 
-        karte1.addVormerker(kunde1);
-        assertFalse(karte1.getVormerker(1) != null);
-
-        karte1.addVormerker(kunde3);
-        assertEquals(kunde3, karte1.getVormerker(1));
-
-        karte1.rueckeAuf();
-        assertEquals(kunde3, karte1.getVormerker(0));
-
-        assertTrue(karte1.istKundeVormerker(kunde3));
-
-        Vormerkungskarte karte4 = new Vormerkungskarte(_medium, kunde1);
-        karte4.addVormerker(kunde2);
-        karte4.addVormerker(kunde3);
-        assertFalse(karte4.vormerkerFrei());
+        _karte = new Vormerkungskarte(_medium2, _kunde2);
+        temp = new Vormerkungskarte(_medium1, _kunde2);
+        assertFalse(_karte.equals(temp));
+        assertFalse(temp.hashCode() == _karte.hashCode());
 
     }
 }
